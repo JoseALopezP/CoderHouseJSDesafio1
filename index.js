@@ -4,7 +4,7 @@ function Producto(codigo, marca, tipo, peso, precio){
     this.tipo = tipo;
     this.peso = peso;
     this.precio = precio;
-    this.describir = () => (console.log(this.marca +" "+ this.tipo +" "+ this.peso +"gr ---> $"+ this.precio));
+    this.describir = () => (console.log(this.codigo + " - " + this.marca +" "+ this.tipo +" ("+ this.peso +"gr) ---> $"+ this.precio));
     this.cambiarPrecio = (nuevoPrecio) => (this.precio = nuevoPrecio);
 }
 
@@ -26,12 +26,30 @@ function carrito(){
     let carrito;
     let x;
     listprodcutos();
-    x = prompt('¿Qué desea agregar al carrito?')
+    x = option();
+    console.log(x);
+    checkOption(x);
     
 }
 
+function option(){
+    let x;
+    x = prompt('¿Qué desea agregar al carrito? (1 al 11, S para salir)');
+    return x;
+}
+
+function checkOption(x){
+    while(x != "S" && (parseInt(x) > 11 || parseInt(x) < 1)){
+        alert('Valor incorrecto');
+        x = option();
+    }
+    return x;
+}
+
 function listprodcutos(){
-    for (let i=1; i<11; i++){
+    for (let i=0; i<11; i++){
         productos[i].describir()
     }
 }
+
+carrito();
