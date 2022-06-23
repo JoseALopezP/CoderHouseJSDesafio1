@@ -23,13 +23,28 @@ let productos=[
 ];
 
 function carrito(){
-    let carrito;
+    let carrito = 0;
     let x;
+    let c;
     listprodcutos();
     x = option();
-    console.log(x);
     checkOption(x);
-    
+    while(x != "S"){
+        c = cantidad();
+        carrito += (parseFloat(productos[x-1].precio) / parseFloat(productos[x-1].peso)) * parseFloat(c);
+        console.log("Su subtotal es de: $", carrito);
+        console.clear();
+        listprodcutos();
+        console.log("Su subtotal es de: $", carrito);
+        x = option();
+        checkOption(x);
+    }
+    console.log('Su total es de: $', carrito);
+}
+
+function cantidad(){
+    let c = prompt("¿Cuánto desea? (en gramos)");
+    return c;
 }
 
 function option(){
