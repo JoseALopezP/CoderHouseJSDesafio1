@@ -13,7 +13,7 @@ function Producto(codigo, marca, tipo, peso, precio){
 const productos=[];
 
 //Agregando productos basicos
-let newProducto = new Producto(1, "La Paulina", "Queso Cremoso tradicional", 100, 86.3)
+let newProducto = new Producto(1, "La Paulina", "Queso Cremoso tradicional", 100, 86.3);
 productos.push(newProducto);
 newProducto = new Producto(2, "La Paulina", "Queso Reggianito", 100, 212.7);
 productos.push(newProducto);
@@ -34,12 +34,33 @@ productos.push(newProducto);
 newProducto = new Producto(10, "Paladini", "Queso Danbo", 100, 108.7);
 productos.push(newProducto);
 
+
+
+//funcion constructora para array con opciones de desarrollador
+function developerListOption(codigoD, descripcion){
+    this.codigoD = codigoD;
+    this.descripcion = descripcion;
+    this.describir = () => (console.log(this.codigoD + ") " + this.descripcion));
+}
+
+//declaracion del array de opciones
+const developerList=[];
+
+//agregando opciones
+let newOption = new developerListOption("A", "Cambiar precio a un producto");
+developerList.push(newOption);
+newOption = new developerListOption("B", "Listar productos de mayor a menor precio");
+developerList.push(newOption);
+newOption = new developerListOption("C", "Listar productos de menor a mayor precio");
+developerList.push(newOption);
+
+
 //simulador interactivo
 function carrito(){
     let carrito = 0;
     let x;
     let c;
-    listprodcutos();
+    list(productos);
     x = option();
     checkOption(x);
     while(x != "S"){
@@ -47,7 +68,7 @@ function carrito(){
         carrito += (parseFloat(productos[x-1].precio) / parseFloat(productos[x-1].peso)) * parseFloat(c);
         console.log("Su subtotal es de: $", carrito);
         console.clear();
-        listprodcutos();
+        list(productos);
         console.log("Su subtotal es de: $", carrito);
         x = option();
         checkOption(x);
@@ -66,7 +87,7 @@ function option(){
     return x;
 }
 
-function option(){
+function optionI(){
     let x;
     x = prompt('Es usted un cliente? (C = cliente, D = Desarrollador)');
     return x;
@@ -80,15 +101,61 @@ function checkOption(x){
     return x;
 }
 
-//Funcion para recorrer la funcion descirbir en cada producto
-function listprodcutos(){
-    productos.forEach(
-        function callback(v , i){ //usado para atrapar el 2do valor que envia el forEach (index)
-            productos[i].describir();
+function optionDeveloper(){
+    let id;
+    list(developerList);
+    id = prompt('¿Qué desea realizar? (A al ' + developerList[developerList.length-1].codigoD + ', S para salir)');
+    console.clear();
+    return id;
+}
+
+function developerUser(){
+    let x;
+    let id;
+    id = optionDeveloper();
+    while(id != "S"){
+        if(id === "A"){
+            list(productos);
+            x = prompt("Seleccione el producto al que desea cambiar el precio");
+            let p = prompt("Cual sera el nuevo precio?")
+            productos[x-1].cambiarPrecio(parseFloat(p));
+            console.clear();
+            list(productos);
+        }else if(id === "B"){
+            let listx = productos;
+            listx.sort((a, b) => {
+                return b.precio - a.precio;
+            });
+            list(listx);
+        }else if(id === "C"){
+            let listx = productos;
+            listx.sort((a, b) => {
+                return a.precio - b.precio;
+            });
+            list(listx);
         }
-    );
+        id = optionDeveloper();
+    }
 }
 
 
+function list(x){
+    x.forEach(
+        function callback(v , i){
+            x[i].describir();
+        }
+    )
+}
+
+
+
 let x = optionI();
-carrito();
+while(x != "C" && x != "D"){
+    alert('Valor incorrecto');
+    x = optionI();
+}
+if(x == "C"){
+    carrito();
+} else{
+    developerUser();
+}
