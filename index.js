@@ -94,7 +94,7 @@ function optionI(){
 }
 
 function checkOption(x){
-    while(x != "S" && (parseInt(x) > produtos.length || parseInt(x) < 1)){
+    while(x != "S" && (parseInt(x) > productos.length || parseInt(x) < 1)){
         alert('Valor incorrecto');
         x = option();
     }
